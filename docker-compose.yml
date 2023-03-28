@@ -1,0 +1,13 @@
+services:
+  nodejs:
+    build: 
+      dockerfile: dockerfile 
+    volumes:
+      - "./:/home/playlistgen/app"
+    networks:
+      - playlistnw
+    ports:
+      - 8080:80
+networks:
+  playlistnw:
+    driver: bridge
