@@ -4,10 +4,9 @@ services:
       dockerfile: dockerfile 
     volumes:
       - "./:/home/playlistgen/app"
-    networks:
-      - playlistnw
+  nginx:
+    image: nginx:latest
+    volumes:
+      - "./:/usr/share/nginx/html"
     ports:
-      - 8080:80
-networks:
-  playlistnw:
-    driver: bridge
+      - 8181:80
