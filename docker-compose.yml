@@ -1,0 +1,12 @@
+services:
+  nodejs:
+    build: 
+      dockerfile: dockerfile 
+    volumes:
+      - "./:/home/playlistgen/app"
+  nginx:
+    image: nginx:latest
+    volumes:
+      - "./:/usr/share/nginx/html"
+    ports:
+      - 8181:80
