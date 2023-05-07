@@ -1,0 +1,19 @@
+.whiteBG {
+    background-color: #ececec;
+}
+.filler {
+    height: 415px;
+    width: 50%;
+}
+.navFiller {
+    height: 100px;
+    width: 100%;
+}
+
+.footFiller {
+    height: 230px;
+}
+
+.fullScreen {
+    height: 100%;
+}
