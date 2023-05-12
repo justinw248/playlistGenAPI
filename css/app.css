@@ -1,0 +1,90 @@
+* {
+    margin: 0px;
+}
+
+
+body {
+    background-color: #ececec;
+    color: #414141;
+}
+
+nav {
+    background-color: #fd496c;
+}
+
+footer {
+    width: 100%;
+    padding: 15px 15px 15px 15px;
+}
+
+p {
+    font-family: 'Questrial', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+}
+
+.grid-container {
+    background-color: #ececec;
+}
+
+a {
+    color: #414141;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #fd496c;
+}
+
+/* Button Styling */
+
+button {
+    color: #F4F4F4;
+    background-color: #fd496c;
+    padding: 15px;
+    border-radius: 5px !important;
+    display: inline-block;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #F4F4F4;
+    border: 1px solid #fd496c;
+    color: #fd496c;
+    transform: scale(1.05);
+    transition-duration: .5s;
+}
+
+/* End Button Styling */
+
+.main {
+    padding: 15px;
+    text-align: center;
+}
+
+.dark {
+    background-color: #161616;
+    color: #F4F4F4;
+   /* font-weight: /* add 100 greater weight version of Questrial */
+}
+
+.padVert {
+    padding: 30px 0px;
+}
+
+.sideBordersLarge {
+    border-left: 1px solid #F4F4F4;
+    border-right: 1px solid #F4F4F4;
+}
+
+
+/* Media Queries */
+
+@media only screen and (max-width:1023px) {
+    .sideBordersLarge {
+        border-left: none;
+        border-right: none;
+    }
+}
