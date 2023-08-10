@@ -2,6 +2,10 @@
     margin: 0px;
 }
 
+.main {
+    padding: 15px;
+    text-align: center;
+}
 
 body {
     background-color: #ececec;
@@ -38,6 +42,12 @@ a:hover {
     color: #fd496c;
 }
 
+label {
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+}
+
 /* Button Styling */
 
 button {
@@ -59,11 +69,6 @@ button:hover {
 
 /* End Button Styling */
 
-.main {
-    padding: 15px;
-    text-align: center;
-}
-
 .dark {
     background-color: #161616;
     color: #F4F4F4;
@@ -79,6 +84,25 @@ button:hover {
     border-right: 1px solid #F4F4F4;
 }
 
+.leftAlign {
+    text-align: left;
+}
+
+.sixtyPercent {
+    width: 60%;
+}
+
+/* Nav Stuff */
+
+.navLogo {
+    width: 62px;
+    padding: 6px 6px 6px 0px;
+    margin: 0px 10px;
+}
+
+.navLogo:hover {
+    mix-blend-mode: screen; /* not working as intended- maybe change image file on hover instead? */
+}
 
 /* Media Queries */
 
