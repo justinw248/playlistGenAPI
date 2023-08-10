@@ -1,6 +1,9 @@
 .whiteBG {
     background-color: #ececec;
 }
+.greyBG {
+    background-color: #c5c5c5;
+}
 .filler {
     height: 415px;
     width: 50%;
