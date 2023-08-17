@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Questrial&display=swap" rel="stylesheet">
+    <!-- Our JS -->
+    <script src="/javascript/authenticate.js"></script>
 </head>
 
 <header>
@@ -32,7 +34,7 @@
             <div class="large-12 cell main">
                 <h2>Playlist Generator</h2>
                 <p>By clicking Log In, I grant permission for STAK'D to connect to Spotify<sup>&reg.</sup>.</p>
-                <a href="#"><button type="button">Log in to Spotify</button></a>
+                <button type="button" onclick="requestUserAuth()">Log in to Spotify</button>
             </div>
         </div>
     </div>
