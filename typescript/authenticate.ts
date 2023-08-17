@@ -13,7 +13,7 @@ function generateRandomString(length: number): string {
     return text;
 }
 
-async function generateCodeChallenge(codeVerifier) {
+async function generateCodeChallenge(codeVerifier): Promise<string> {
     function base64encode(string) {
       return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
         .replace(/\+/g, '-')
@@ -52,8 +52,8 @@ function requestUserAuth(): void {
 }
 
 function requestAccessToken(): void {
-    const urlParams = new URLSearchParams(window.location.search);
-    let code = urlParams.get('code');
+    const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
+    let code: string = urlParams.get('code');
 
     let codeVerifier: string = localStorage.getItem('code_verifier');
 
@@ -81,4 +81,8 @@ function requestAccessToken(): void {
     }).catch(error => {
         console.error('Error:', error);
     });
+}
+
+function getAccessToken(): string {
+    return localStorage.getItem('access_token');
 }
