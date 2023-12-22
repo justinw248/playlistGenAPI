@@ -1,4 +1,3 @@
-// import { URLSearchParams } from "url";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10,13 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const clientId = 'baa9013e4f5a497cb60185afdca3f2dd';
 const redirectUri = 'http://localhost:8181/home.html';
+const tokenUri = 'https://accounts.spotify.com/api/token';
 function generateRandomString(length) {
-    let text = '';
-    let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const values = crypto.getRandomValues(new Uint8Array(length));
+    return values.reduce((acc, x) => acc + possible[x % possible.length], "");
 }
 function generateCodeChallenge(codeVerifier) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -45,23 +42,65 @@ function requestUserAuth() {
             redirect_uri: redirectUri,
             state: state,
             code_challenge_method: 'S256',
-            code_challenge: codeChallenge
+            code_challenge: codeChallenge,
         });
         window.location = 'https://accounts.spotify.com/authorize?' + args;
     });
 }
 function requestAccessToken() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let code = urlParams.get('code');
-    let codeVerifier = localStorage.getItem('code_verifier');
-    let body = new URLSearchParams({
-        grant_type: 'authorization_code',
-        code: code,
-        redirect_uri: redirectUri,
-        client_id: clientId,
-        code_verifier: codeVerifier
+    return __awaiter(this, void 0, void 0, function* () {
+        const urlParams = new URLSearchParams(window.location.search);
+        let code = urlParams.get('code');
+        // User didn't authorize with Spotify
+        if (code == null || code.length <= 0) {
+            window.location = '/index.html';
+        }
+        let codeVerifier = localStorage.getItem('code_verifier');
+        let body = new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: redirectUri,
+            client_id: clientId,
+            code_verifier: codeVerifier,
+        });
+        let authPromise = fetch(tokenUri, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: body
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('HTTP status ' + response.status);
+            }
+            return response.json();
+        }).then(data => {
+            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('refresh_token', data.refresh_token);
+        }).catch(error => {
+            console.error('Error:', error);
+        }).finally(() => {
+            localStorage.removeItem('code_verifier');
+        });
+        return authPromise;
     });
-    const response = fetch('https://accounts.spotify.com/api/token', {
+}
+// Technically won't return until the token is fullfilled
+function getAccessToken() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield requestAccessToken();
+        let token = localStorage.getItem('access_token');
+        return token;
+    });
+}
+function refreshAcessToken() {
+    const refreshToken = localStorage.getItem('refresh_token');
+    let body = new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+        client_id: clientId,
+    });
+    fetch(tokenUri, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -74,10 +113,13 @@ function requestAccessToken() {
         return response.json();
     }).then(data => {
         localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('refresh_token', data.refresh_token);
     }).catch(error => {
         console.error('Error:', error);
     });
 }
-function getAccessToken() {
-    return localStorage.getItem('access_token');
+function redirectIfAuthorized() {
+    if (localStorage.getItem('access_token') == null) {
+        window.location = '/home.html';
+    }
 }
